@@ -18,14 +18,25 @@ if %errorLevel% neq 0 (
     exit /b 1
 )
 
+echo Verificando si Brave ya está instalado...
+powershell -Command "Get-Process brave -ErrorAction SilentlyContinue" >nul
+if %errorLevel% equ 0 (
+    echo Brave ya está instalado.
+    echo No se realizará ninguna acción.
+    pause
+    exit /b 0
+)
+
 echo Instalando Brave...
 start /wait "" "%INSTALLER%"
 
-echo Verificando Firefox...
-tasklist | find /i "firefox.exe" >nul
-if %errorLevel% equ 0 (
-    echo Cerrando Firefox...
-    taskkill /f /im firefox.exe
+echo Verificando navegadores abiertos...
+for %%B in (chrome.exe firefox.exe msedge.exe opera.exe) do (
+    tasklist | find /i "%%B" >nul
+    if %errorLevel% equ 0 (
+        echo Cerrando %%B...
+        taskkill /f /im %%B
+    )
 )
 
 del "%INSTALLER%" 2>nul
