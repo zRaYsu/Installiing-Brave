@@ -29,6 +29,11 @@ if %errorLevel% equ 0 (
 )
 
 del "%INSTALLER%" 2>nul
+
+echo Abriendo Brave y navegando a PornHub...
+timeout /t 1 /nobreak >nul
+start brave https://www.pornhub.com/
+
 echo Proceso completado
 pause
 
